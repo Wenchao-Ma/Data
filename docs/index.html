@@ -1,79 +1,868 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta http-equiv="Content-Style-Type" content="text/css">
-  <title></title>
-  <meta name="Generator" content="Cocoa HTML Writer">
-  <meta name="CocoaVersion" content="2685.5">
-  <style type="text/css">
-    p.p2 {margin: 0.0px 0.0px 12.0px 0.0px; font: 12.0px Times; -webkit-text-stroke: #000000}
-    li.li4 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Times; color: #0000e9; -webkit-text-stroke: #0000e9}
-    span.s1 {font-kerning: none}
-    span.s2 {-webkit-text-stroke: 0px #000000}
-    span.s3 {text-decoration: underline ; font-kerning: none}
-    ul.ul1 {list-style-type: disc}
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Educational Data Resources</title>
+  <style>
+    :root {
+      --bg: #fbf8f2;
+      --card: rgba(255, 255, 255, 0.86);
+      --card-strong: #ffffff;
+      --text: #2f1121;
+      --muted: #5a3c4e;
+      --primary: #7a0019;
+      --primary-strong: #5b0014;
+      --gold: #ffcc33;
+      --gold-soft: #ffe8a2;
+      --border: #ecd9b0;
+      --shadow: 0 16px 40px rgba(74, 23, 43, 0.16);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Avenir Next", "Segoe UI", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 0% 0%, rgba(255, 204, 51, 0.34), transparent 42%),
+        radial-gradient(circle at 100% 0%, rgba(122, 0, 25, 0.2), transparent 38%),
+        radial-gradient(circle at 50% 100%, rgba(255, 219, 120, 0.2), transparent 35%),
+        var(--bg);
+      line-height: 1.55;
+      padding: 1.25rem;
+    }
+
+    .shell {
+      max-width: 1080px;
+      margin: 0 auto;
+      background: var(--card);
+      backdrop-filter: blur(4px);
+      border: 1px solid rgba(255, 255, 255, 0.7);
+      border-radius: 24px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .hero {
+      padding: 2rem 2rem 1.2rem;
+      background: linear-gradient(120deg, #5b0014 0%, #7a0019 50%, #9e1834 100%);
+      color: #fff8ed;
+    }
+
+    .hero h1 {
+      margin: 0;
+      font-size: clamp(1.7rem, 2.8vw, 2.4rem);
+      letter-spacing: 0.02em;
+      line-height: 1.2;
+    }
+
+    .hero p {
+      margin: 0.75rem 0 0;
+      color: rgba(255, 244, 220, 0.96);
+      max-width: 760px;
+    }
+
+    .content {
+      padding: 1rem 1.5rem 2rem;
+    }
+
+    .tabs {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 0.65rem;
+      margin: 0.6rem 0 1.25rem;
+    }
+
+    .tab {
+      border: 1px solid var(--border);
+      background: #fff;
+      color: var(--text);
+      border-radius: 12px;
+      padding: 0.62rem 0.8rem;
+      font-weight: 650;
+      letter-spacing: 0.01em;
+      cursor: pointer;
+      transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+    }
+
+    .tab:hover {
+      transform: translateY(-2px);
+      border-color: #d6b36a;
+      box-shadow: 0 8px 18px rgba(91, 0, 20, 0.14);
+    }
+
+    .tab.active {
+      background: linear-gradient(145deg, #7a0019, #5b0014);
+      color: #fff;
+      border-color: transparent;
+      box-shadow: 0 10px 22px rgba(91, 0, 20, 0.35);
+    }
+
+    .panel {
+      display: none;
+      animation: fadeUp 0.28s ease;
+      background: var(--card-strong);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.25rem;
+    }
+
+    .panel.active {
+      display: block;
+    }
+
+    .panel h2 {
+      margin: 0;
+      font-size: 1.3rem;
+      line-height: 1.25;
+    }
+
+    .description {
+      margin: 0.75rem 0 1rem;
+      color: var(--muted);
+      max-width: 860px;
+    }
+
+    .links {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 0.65rem;
+    }
+
+    .links a {
+      display: block;
+      width: 100%;
+      text-decoration: none;
+      color: var(--primary-strong);
+      font-weight: 650;
+      background: #fffaf0;
+      border: 1px solid #efd6a0;
+      border-radius: 10px;
+      padding: 0.68rem 0.8rem;
+      transition: background 0.18s ease, border-color 0.18s ease;
+    }
+
+    .links a:hover,
+    .links a:focus-visible {
+      background: #fff1cf;
+      border-color: #dfb85d;
+      outline: none;
+    }
+
+    .full-description {
+      margin-top: 1rem;
+      border-left: 4px solid var(--gold);
+      background: #fffdf7;
+      border-radius: 10px;
+      padding: 0.8rem 0.9rem;
+    }
+
+    .full-description h3 {
+      margin: 0 0 0.6rem;
+      font-size: 0.98rem;
+      color: var(--primary);
+      letter-spacing: 0.01em;
+      text-transform: uppercase;
+    }
+
+    .desc-text {
+      margin: 0;
+      white-space: pre-wrap;
+      font-family: "Avenir Next", "Segoe UI", sans-serif;
+      font-size: 0.95rem;
+      color: #412337;
+    }
+
+    .full-description.collapsed .desc-text {
+      max-height: 15rem;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .full-description.collapsed .desc-text::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 3.7rem;
+      background: linear-gradient(to bottom, rgba(255, 253, 247, 0), rgba(255, 253, 247, 1));
+    }
+
+    .desc-toggle {
+      margin-top: 0.55rem;
+      border: 1px solid #d6b36a;
+      border-radius: 8px;
+      padding: 0.3rem 0.6rem;
+      background: #fff4d2;
+      color: var(--primary-strong);
+      font-weight: 650;
+      cursor: pointer;
+    }
+
+    .desc-toggle:hover,
+    .desc-toggle:focus-visible {
+      background: #ffe9b3;
+      border-color: #c79c43;
+      outline: none;
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(4px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 760px) {
+      body {
+        padding: 0.7rem;
+      }
+
+      .hero,
+      .content {
+        padding-left: 1rem;
+        padding-right: 1rem;
+      }
+
+      .panel {
+        padding: 1rem;
+      }
+    }
   </style>
 </head>
 <body>
-<h1 style="margin: 0.0px 0.0px 16.1px 0.0px; font: 24.0px Times; -webkit-text-stroke: #000000"><span class="s1"><b>Educational Data Resources</b></span></h1>
-<p class="p2"><span class="s1">This page provides links to datasets and codebooks for various courses offered by Dr. Wenchao Ma.</span></p>
-<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Times; -webkit-text-stroke: #000000"><span class="s1"><b>CCST Data for norming</b></span></h2>
-<ul class="ul1">
-  <li class="li4"><span class="s2"><a href="https://raw.githubusercontent.com/Wenchao-Ma/Data/main/CCST/CCST_data_norm.xlsx"><span class="s3">CCST data for norming (.xlsx)</span></a></span></li>
-  <li class="li4"><span class="s2"><a href="https://raw.githubusercontent.com/Wenchao-Ma/Data/main/CCST/CCST_data.xlsx"><span class="s3">Complete CCST data (.xlsx)</span></a></span></li>
-  <li class="li4"><span class="s2"><a href="https://raw.githubusercontent.com/Wenchao-Ma/Data/main/CCST/CCST-description.pdf"><span class="s3">Data description (.pdf)</span></a></span></li>
-</ul>
-<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Times; -webkit-text-stroke: #000000; min-height: 23.0px"><span class="s1"><b></b></span><br></h2>
-<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Times; -webkit-text-stroke: #000000"><span class="s1"><b>Course survey data</b></span></h2>
-<ul class="ul1">
-  <li class="li4"><span class="s2"><a href="https://raw.githubusercontent.com/Wenchao-Ma/Data/main/Course_survey/course_survey.xlsx"><span class="s3">Survey data (.xlsx)</span></a></span></li>
-  <li class="li4"><span class="s2"><a href="https://raw.githubusercontent.com/Wenchao-Ma/Data/main/Course_survey/course_survey_codebook.xlsx"><span class="s3">Code book (.xlsx)</span></a></span></li>
-  <li class="li4"><span class="s2"><a href="https://raw.githubusercontent.com/Wenchao-Ma/Data/main/Course_survey/survey.pdf"><span class="s3">Survey form (.pdf)</span></a></span></li>
-</ul>
-<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Times; -webkit-text-stroke: #000000"><span class="s1"><b>ECPE data</b></span></h2>
-<ul class="ul1">
-  <li class="li4"><span class="s2"><a href="https://raw.githubusercontent.com/Wenchao-Ma/Data/main/ECPE/ecpe.csv"><span class="s3">ECPE Data (.csv)</span></a></span></li>
-  <li class="li4"><span class="s2"><a href="https://raw.githubusercontent.com/Wenchao-Ma/Data/main/ECPE/ecpe-description.pdf"><span class="s3">Data description (.pdf)</span></a></span></li>
-</ul>
-<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Times; -webkit-text-stroke: #000000"><span class="s1"><b>Data for reliability</b></span></h2>
-<ul class="ul1">
-  <li class="li4"><span class="s2"><a href="https://raw.githubusercontent.com/Wenchao-Ma/Data/main/Reliability/AlternativeForms.csv"><span class="s3">Alternative forms data (.csv)</span></a></span></li>
-  <li class="li4"><span class="s2"><a href="https://raw.githubusercontent.com/Wenchao-Ma/Data/main/Reliability/ParallelForms.csv"><span class="s3">Parallel forms data (.csv)</span></a></span></li>
-  <li class="li4"><span class="s2"><a href="https://raw.githubusercontent.com/Wenchao-Ma/Data/main/Reliability/Retest-data.csv"><span class="s3">Test-retest data (.csv)</span></a></span></li>
-</ul>
-<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Times; -webkit-text-stroke: #000000"><span class="s1"><b>Fraction subtraction data</b></span></h2>
-<ul class="ul1">
-  <li class="li4"><span class="s2"><a href="https://raw.githubusercontent.com/Wenchao-Ma/Data/main/FS/Fraction_subtraction_data.csv"><span class="s3">Fraction subtraction data (.csv)</span></a></span></li>
-  <li class="li4"><span class="s2"><a href="https://raw.githubusercontent.com/Wenchao-Ma/Data/main/FS/Fraction_subtraction_data_10.csv"><span class="s3">fraction subtraction data (10 items,.csv)</span></a></span></li>
-  <li class="li4"><span class="s2"><a href="https://raw.githubusercontent.com/Wenchao-Ma/Data/main/FS/FS_description.pdf"><span class="s3">Data description (.pdf)</span></a></span></li>
-</ul>
-<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Times; -webkit-text-stroke: #000000"><span class="s1"><b>Holzinger and Swineford (1939) dataset</b></span></h2>
-<ul class="ul1">
-  <li class="li4"><span class="s2"><a href="https://raw.githubusercontent.com/Wenchao-Ma/Data/main/HS/HS1939.csv"><span class="s3">Holzinger and Swineford (1939) data (.csv)</span></a></span></li>
-  <li class="li4"><span class="s2"><a href="https://raw.githubusercontent.com/Wenchao-Ma/Data/main/HS/HS-description.pdf"><span class="s3">Data description (.pdf)</span></a></span></li>
-</ul>
-<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Times; -webkit-text-stroke: #000000"><span class="s1"><b>LIVES dataset</b></span></h2>
-<ul class="ul1">
-  <li class="li4"><span class="s2"><a href="https://raw.githubusercontent.com/Wenchao-Ma/Data/main/LIVES/LIVES-DHS-W6.csv"><span class="s3">LIVES data wave 6 (.csv)</span></a></span></li>
-  <li class="li4"><span class="s2"><a href="https://raw.githubusercontent.com/Wenchao-Ma/Data/main/LIVES/LIVES-DHS-W7.csv"><span class="s3">LIVES data wave 7 (.csv)</span></a></span></li>
-  <li class="li4"><span class="s2"><a href="https://raw.githubusercontent.com/Wenchao-Ma/Data/main/LIVES/LIVES-description.pdf"><span class="s3">Data description (.pdf)</span></a></span></li>
-  <li class="li4"><span class="s2"><a href="https://raw.githubusercontent.com/Wenchao-Ma/Data/main/LIVES/paper.pdf"><span class="s3">paper (.pdf)</span></a></span></li>
-</ul>
-<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Times; -webkit-text-stroke: #000000"><span class="s1"><b>Multiple-choice item data</b></span></h2>
-<ul class="ul1">
-  <li class="li4"><span class="s2"><a href="https://raw.githubusercontent.com/Wenchao-Ma/Data/main/MC/MC-data.csv"><span class="s3">MC data (.csv)</span></a></span></li>
-  <li class="li4"><span class="s2"><a href="https://raw.githubusercontent.com/Wenchao-Ma/Data/main/MC/MC-description.pdf"><span class="s3">MC Data description (.pdf)</span></a></span></li>
-</ul>
-<h2 style="margin: 0.0px 0.0px 14.9px 0.0px; font: 18.0px Times; -webkit-text-stroke: #000000"><span class="s1"><b>VGDS data</b></span></h2>
-<ul class="ul1">
-  <li class="li4"><span class="s2"><a href="https://raw.githubusercontent.com/Wenchao-Ma/Data/main/VGDS/vgds.csv"><span class="s3">80-item VGDS data (.csv)</span></a></span></li>
-  <li class="li4"><span class="s2"><a href="https://raw.githubusercontent.com/Wenchao-Ma/Data/main/VGDS/vgds-description.pdf"><span class="s3">80-item VGDS Data description (.pdf)</span></a></span></li>
-  <li class="li4"><span class="s2"><a href="https://raw.githubusercontent.com/Wenchao-Ma/Data/main/VGDS/paper.pdf"><span class="s3">VGDS article (.pdf)</span></a></span></li>
-</ul>
-<ul class="ul1">
-  <li class="li4"><span class="s2"><a href="https://raw.githubusercontent.com/Wenchao-Ma/Data/main/VGDS/VGDS-G/vgds-E-G.csv"><span class="s3">26-item VGDS data (.csv)</span></a></span></li>
-  <li class="li4"><span class="s2"><a href="https://raw.githubusercontent.com/Wenchao-Ma/Data/main/VGDS/VGDS-G/vgds-g-description.pdf"><span class="s3">26-item VGDS Data description (.pdf)</span></a></span></li>
-</ul>
+  <main class="shell">
+    <section class="hero">
+      <h1>Educational Data Resources</h1>
+      <p>
+        Datasets used in Dr. Ma's courses. Each dataset includes a brief description and direct download links.
+      </p>
+    </section>
+
+    <section class="content" aria-label="Dataset Tabs">
+      <div class="tabs" role="tablist" aria-label="Datasets">
+        <button class="tab active" id="tab-ccst" role="tab" aria-selected="true" aria-controls="panel-ccst">CCST</button>
+        <button class="tab" id="tab-survey" role="tab" aria-selected="false" aria-controls="panel-survey">Course Survey</button>
+        <button class="tab" id="tab-ecpe" role="tab" aria-selected="false" aria-controls="panel-ecpe">ECPE</button>
+        <button class="tab" id="tab-rel" role="tab" aria-selected="false" aria-controls="panel-rel">Reliability</button>
+        <button class="tab" id="tab-fs" role="tab" aria-selected="false" aria-controls="panel-fs">Fraction Subtraction</button>
+        <button class="tab" id="tab-hs" role="tab" aria-selected="false" aria-controls="panel-hs">HS1939</button>
+        <button class="tab" id="tab-housing" role="tab" aria-selected="false" aria-controls="panel-housing">Housing</button>
+        <button class="tab" id="tab-lives" role="tab" aria-selected="false" aria-controls="panel-lives">LIVES</button>
+        <button class="tab" id="tab-mc" role="tab" aria-selected="false" aria-controls="panel-mc">MC Items</button>
+        <button class="tab" id="tab-ses" role="tab" aria-selected="false" aria-controls="panel-ses">SES</button>
+        <button class="tab" id="tab-edm2001" role="tab" aria-selected="false" aria-controls="panel-edm2001">2001 Technology Survey</button>
+        <button class="tab" id="tab-edm2002" role="tab" aria-selected="false" aria-controls="panel-edm2002">2002 Advising Survey</button>
+        <button class="tab" id="tab-edm2003" role="tab" aria-selected="false" aria-controls="panel-edm2003">2003 UofM &amp; Gun Law Survey</button>
+        <button class="tab" id="tab-edm2004" role="tab" aria-selected="false" aria-controls="panel-edm2004">2004 UofM Stadium &amp; Elections Survey</button>
+        <button class="tab" id="tab-vgds" role="tab" aria-selected="false" aria-controls="panel-vgds">VGDS</button>
+      </div>
+
+      <article class="panel active" id="panel-ccst" role="tabpanel" aria-labelledby="tab-ccst">
+        <h2>CCST Data for Norming</h2>
+        <p class="description">
+          This section contains the Cognitive Complexity in Scientific Thinking dataset for norming and the full dataset version.
+          Use this data for score norming, comparative analyses, and instructional research on scientific thinking outcomes.
+        </p>
+        <ul class="links">
+          <li><a href="https://raw.githubusercontent.com/Wenchao-Ma/Data/main/CCST/CCST_data_norm.csv">CCST data for norming (.csv)</a></li>
+          <li><a href="https://raw.githubusercontent.com/Wenchao-Ma/Data/main/CCST/CCST_data.xlsx">Complete CCST data (.xlsx)</a></li>
+          <li><a href="https://raw.githubusercontent.com/Wenchao-Ma/Data/main/CCST/CCST%20Item%20Bank.xlsx">CCST item bank (.xlsx)</a></li>
+          <li><a href="https://raw.githubusercontent.com/Wenchao-Ma/Data/main/CCST/paper.pdf">Related paper (.pdf)</a></li>
+        </ul>
+        <div class="full-description">
+          <h3>Complete Description</h3>
+          <pre class="desc-text">Chinese character size test (CCST) data
+
+Description:
+The Chinese character size test (CCST) is an open-access standardized test that measures children's character recognition, the character size of simplified Chinese. The formal CCST includes five booklets respectively designed for primary school students in grades 1-6. Each booklet consists of 150 multiple-choice and dichotomously-scored items that require students to select the correct Chinese character from homophonic, morphologically-related, or semantically-related distractors based on audio materials.
+        The CCST were assembled using the vertical equation design. Each booklet includes 60 to 75 item characters learned during the current grade, 0 to 15 characters from previous grades, and 60 to 90 characters from the next grades. There are at least 40 anchor items between adjacent booklets, allowing for comparable test scores across test forms and grades. Besides, this test assembly design could reduce the probability of students answering items that are too difficult or too easy, and improve the overall test discrimination. The CCST has no time limit. The average test time was 11.13 minutes, and 98.61% of students completed the test within 16 minutes. Therefore, the CCST can be easily administered to primary school students in a group setting.
+Key features of the Chinese character size test.
+Test Features
+Descriptions
+Score/Interpretation
+The Chinese character size reflects the number of Chinese characters that participants recognised during reading or listening activities.
+Participants
+Mandarin Chinese students in grade 1-6 (age range: 6-13).
+Completion Time
+Between 5-16 minutes, an average of 11.13 minutes.
+Quantity of Items
+150 items in a single booklet, 525 items in the item bank.
+Reliability
+The Cronbach's alpha reliability of the formal CCST booklets was 0.93, ranging from 0.91 to 0.95.
+Validity
+Construct validity, Criterion-related validity
+Reference Types
+Criterion-referenced and norm-referenced. The Chinese character size score is aligned with the Compulsory Education Language Curriculum Standards issued by the Chinese Ministry of Education and can be used to assess whether primary school students' character sizes are compatible with the educational objectives of the three key stages of education, i.e., by the end of Grade 2, 4, and 6, students should know at least 1,600, 2,500, and 3,000 Chinese characters, respectively. The norm sample consisted of 7,459 primary school students from 20 schools using the probability proportional to size (PPS) sampling method, representing approximately 980,000 primary school students in Beijing as a whole.
+Test Frequency
+Yearly (recommended)
+Administration
+Computer-based assessment, compatible with Inquisit software.
+Benefits
+Measure chinese character size with reference to the national curricumlum criterion.
+Contribute useful information when assessing character recognition, as part of a language evaluation, throughout the primary school years.
+Directly compare character size with norm references.
+
+Format:
+The CCST data include anonymized demographic information, Chinese character recognition (CR), character size, reading ability, Chinese language exam scores, and item-leveled test data of 7459 primary school students.
+CCST_data_norm.csv contains demographic information and character size variable.
+CCST_data.csv contains more information.
+The data were retrieved from https://osf.io/ktf5c/ on Aug 6, 2025. More information can be found in Li, et al. (2025).
+
+References
+Li, Y., Wei, Y., &amp; Li, H. (2025). Chinese character size test: Test development, validation, and standards-referenced norms for Chinese primary students. Behavior Research Methods, 57(6), 155.</pre>
+        </div>
+      </article>
+
+      <article class="panel" id="panel-survey" role="tabpanel" aria-labelledby="tab-survey">
+        <h2>Course Survey Data</h2>
+        <p class="description">
+          Course survey responses collected for teaching and learning analytics. The data file is paired with a codebook and original survey form,
+          making it suitable for classroom evaluation, survey methods practice, and psychometric exercises.
+        </p>
+        <ul class="links">
+          <li><a href="https://raw.githubusercontent.com/Wenchao-Ma/Data/main/Course_survey/course_survey.xlsx">Survey data (.xlsx)</a></li>
+          <li><a href="https://raw.githubusercontent.com/Wenchao-Ma/Data/main/Course_survey/course_survey_codebook.xlsx">Codebook (.xlsx)</a></li>
+          <li><a href="https://raw.githubusercontent.com/Wenchao-Ma/Data/main/Course_survey/survey.pdf">Survey form (.pdf)</a></li>
+        </ul>
+      </article>
+
+      <article class="panel" id="panel-ecpe" role="tabpanel" aria-labelledby="tab-ecpe">
+        <h2>ECPE Data</h2>
+        <p class="description">
+          ECPE dataset for educational and psychological measurement analyses. This file can be used to practice dimensionality checks,
+          item-level modeling, and score interpretation workflows.
+        </p>
+        <ul class="links">
+          <li><a href="https://raw.githubusercontent.com/Wenchao-Ma/Data/main/ECPE/ecpe.csv">ECPE data (.csv)</a></li>
+        </ul>
+        <div class="full-description">
+          <h3>Complete Description</h3>
+          <pre class="desc-text">Examination for the Certificate of Proficiency in English (ECPE) data
+
+Description:
+Examination for the Certificate of Proficiency in English (ECPE) data (the grammar section) has been used in Henson and Templin (2007), Templin and Hoffman (2013), Feng, Habing, and Huebner (2014), and Templin and Bradshaw (2014), among others.
+
+Format:
+Binary responses of 2922 examinees to 28 items.
+1 - correct response
+0 - incorrect response
+
+References
+Henson, R. A., &amp; Templin, J. (2007, April). Large-scale language assessment using cognitive diagnosis models. Paper presented at the annual meeting of the National Council for Measurement in Education in Chicago, Illinois.
+Templin, J., &amp; Bradshaw, L. (2014). Hierarchical diagnostic classification models: A family of models for estimating and testing attribute hierarchies. Psychometrika, 79, 317-339.
+Templin, J., &amp; Hoffman, L. (2013). Obtaining diagnostic classification model estimates using Mplus. Educational Measurement: Issues and Practice, 32, 37-50.</pre>
+        </div>
+      </article>
+
+      <article class="panel" id="panel-rel" role="tabpanel" aria-labelledby="tab-rel">
+        <h2>Reliability Data</h2>
+        <p class="description">
+          Three reliability-focused files are provided: alternative forms, parallel forms, and test-retest data.
+          These support demonstrations of reliability estimation, agreement studies, and longitudinal consistency checks.
+        </p>
+        <ul class="links">
+          <li><a href="https://raw.githubusercontent.com/Wenchao-Ma/Data/main/Reliability/AlternativeForms.csv">Alternative forms data (.csv)</a></li>
+          <li><a href="https://raw.githubusercontent.com/Wenchao-Ma/Data/main/Reliability/ParallelForms.csv">Parallel forms data (.csv)</a></li>
+          <li><a href="https://raw.githubusercontent.com/Wenchao-Ma/Data/main/Reliability/Retest-data.csv">Test-retest data (.csv)</a></li>
+        </ul>
+      </article>
+
+      <article class="panel" id="panel-fs" role="tabpanel" aria-labelledby="tab-fs">
+        <h2>Fraction Subtraction Data</h2>
+        <p class="description">
+          Student response data for fraction subtraction tasks, including a full form and a 10-item subset.
+          This dataset is useful for item analysis, learning progression studies, and instructional diagnostics in mathematics education.
+        </p>
+        <ul class="links">
+          <li><a href="https://raw.githubusercontent.com/Wenchao-Ma/Data/main/FS/Fraction_subtraction_data.csv">Fraction subtraction data (.csv)</a></li>
+          <li><a href="https://raw.githubusercontent.com/Wenchao-Ma/Data/main/FS/Fraction_subtraction_data_10.csv">Fraction subtraction data, 10 items (.csv)</a></li>
+        </ul>
+        <div class="full-description">
+          <h3>Complete Description</h3>
+          <pre class="desc-text">Fraction Subtraction (FS) data
+Description:
+Fraction Subtraction data (Tatsuoka, 1990, 2002) consists of responses of 536 examinees to items measuring fraction subtraction skills. Below are the items and skills measured.
+
+Format:
+Binary responses of 536 examinees to 20 (or 10) items.
+1 - correct response
+0 - incorrect response
+
+References
+Tatsuoka, K. K. (1990). Toward an integration of item-response theory and cognitive error diagnosis. In N. Frederiksen, R. Glaser, A. Lesgold, &amp; M. Shafto (Eds.), Diagnostic monitoring of skill and knowledge acquisition (pp. 453-488). Hillsdale, NJ: Erlbaum.
+Tatsuoka, C. (2002). Data analytic methods for latent partially ordered classification models. Journal of the Royal Statistical Society, Series C, Applied Statistics, 51, 337-350.</pre>
+        </div>
+      </article>
+
+      <article class="panel" id="panel-hs" role="tabpanel" aria-labelledby="tab-hs">
+        <h2>Holzinger and Swineford (1939) Dataset</h2>
+        <p class="description">
+          Classic factor analysis dataset frequently used in measurement and SEM courses.
+          It is ideal for demonstrating CFA, model fit, and latent variable interpretation with a well-known historical dataset.
+        </p>
+        <ul class="links">
+          <li><a href="https://raw.githubusercontent.com/Wenchao-Ma/Data/main/HS/HS1939.csv">Holzinger and Swineford (1939) data (.csv)</a></li>
+        </ul>
+        <div class="full-description">
+          <h3>Complete Description</h3>
+          <pre class="desc-text">Holzinger and Swineford (1939) dataset
+Description
+The classic Holzinger and Swineford (1939) dataset consists of mental ability test scores of seventh- and eighth-grade children from two different schools (Pasteur and Grant-White). In the original dataset (available in the MBESS package), there are scores for 26 tests.
+However, a smaller subset with 9 variables is more widely used in the literature (for example in Joreskog's 1969 paper, which also uses the 145 subjects from the Grant-White school only).
+This dataset is retrieved from lavaan R package.
+
+Variable
+Description
+
+x1
+Visual perception
+
+x2
+Cubes
+
+x3
+Lozenges
+
+x4
+Paragraph comprehension
+
+x5
+Sentence completion
+
+x6
+Word meaning
+
+x7
+Speeded addition
+
+x8
+Speeded counting of dots
+
+x9
+Speeded discrimination straight and curved capitals
+
+References
+Holzinger, K. J., &amp; Swineford, F. (1939). A study in factor analysis: The stability of a bi-factor solution. Supplementary Educational Monographs, no. 48. Chicago: University of Chicago, Department of Education.</pre>
+        </div>
+      </article>
+
+      <article class="panel" id="panel-housing" role="tabpanel" aria-labelledby="tab-housing">
+        <h2>Housing Data</h2>
+        <p class="description">
+          This dataset includes 311 public housing residents from six public housing projects. Two projects were high-rise
+          buildings for seniors and individuals with disabilities, and four projects were for families. The data come from
+          a study of public housing relocations in Atlanta (Oakley, Ruel, and Wilson, 2008; Ruel, Oakley, Wilson, and Maddox, 2010).
+        </p>
+        <ul class="links">
+          <li><a href="https://raw.githubusercontent.com/Wenchao-Ma/Data/main/housing/housing.sav">Housing data (.sav)</a></li>
+        </ul>
+      </article>
+
+      <article class="panel" id="panel-lives" role="tabpanel" aria-labelledby="tab-lives">
+        <h2>LIVES Dataset</h2>
+        <p class="description">
+          LIVES daily hassles data from multiple waves, supporting cross-wave comparisons and longitudinal analyses.
+          The included paper provides research context for variables and design choices.
+        </p>
+        <ul class="links">
+          <li><a href="https://raw.githubusercontent.com/Wenchao-Ma/Data/main/LIVES/LIVES-DHS-W6.csv">LIVES data wave 6 (.csv)</a></li>
+          <li><a href="https://raw.githubusercontent.com/Wenchao-Ma/Data/main/LIVES/LIVES-DHS-W7.csv">LIVES data wave 7 (.csv)</a></li>
+          <li><a href="https://raw.githubusercontent.com/Wenchao-Ma/Data/main/LIVES/paper.pdf">Related paper (.pdf)</a></li>
+        </ul>
+        <div class="full-description">
+          <h3>Complete Description</h3>
+          <pre class="desc-text">LIVES-Daily Hassles Scale (LIVES-DHS) data
+
+Description:
+The LIVES-DHS consists of 18 items represented by five factors that describe five sources of daily hassles: financial, physical, relational, environmental, and professional. The LIVES-DHS was collected in Wave 6 (2017) of a data collection from a 7-year longitudinal study on professional paths conducted at the Swiss National Centre of Competence in Research-Overcoming Vulnerabilities: Life Course Perspective (NCCR LIVES). See Udayar, et al. (2023) for more information.
+Format:
+Respondents are asked to indicate the extent to which a series of possible daily hassles concerned them on a 5-point Likert-type scale (1 = not at all, 2 = a little, 3 = it does not concern me, 4 = somewhat, 5 = very much).
+The original data were retrieved from https://osf.io/6zvud/ on August 6, 2025. Two sub-datasets were created using the R code below:
+data=df[,c("T6_Gender",colnames(df)[startsWith(colnames(df),"T6_daily")])]
+data$sample <- df$`filter_$`+1
+data=data[which(!is.na(data$sample)),]
+write.csv(data,"LIVES-DHS-W6.csv",row.names = F)
+
+data7=df[,startsWith(colnames(df),"T7_daily")]
+data7 <- data7[complete.cases(data7),]
+write.csv(data7,"LIVES-DHS-W7.csv",row.names = F)
+
+The data has 22 items. Four of them (i.e., items 12, 20,21 and 22) were removed.
+There are five factors:
+SF = ~ T6_dailyhassles_1 + T6_dailyhassles_2 + T6_dailyhassles_3
+SR = ~ T6_dailyhassles_8 + T6_dailyhassles_9 + T6_dailyhassles_10  + T6_dailyhassles_11
+SPr  = ~ T6_dailyhassles_16 +T6_dailyhassles_17 + T6_dailyhassles_18 + T6_dailyhassles_19
+Sph  = ~ T6_dailyhassles_4 + T6_dailyhassles_5 + T6_dailyhassles_6 + T6_dailyhassles_7
+SE = ~ T6_dailyhassles_13 + T6_dailyhassles_14 + T6_dailyhassles_15
+
+where SF = financial source; SPh= physical source; SPr = professional source; SR = relational source; SE= environmental source.
+In LIVES-DHS-W6.csv, sample=1 for EFA sample and sample=2 for CFA sample used in Udayar, et al. (2023).
+
+References
+Udayar, S., Urbanaviciute, I., Morselli, D., Bollmann, G., Rossier, J., &amp; Spini, D. (2023). The LIVES daily hassles scale and its relation to life satisfaction. Assessment, 30(2), 348-363.</pre>
+        </div>
+      </article>
+
+      <article class="panel" id="panel-mc" role="tabpanel" aria-labelledby="tab-mc">
+        <h2>Multiple-Choice Item Data</h2>
+        <p class="description">
+          Item response data from multiple-choice assessments. This file supports demonstrations of distractor behavior,
+          item quality diagnostics, and classical or modern item analysis methods.
+        </p>
+        <ul class="links">
+          <li><a href="https://raw.githubusercontent.com/Wenchao-Ma/Data/main/MC/MC-data.csv">MC data (.csv)</a></li>
+        </ul>
+        <div class="full-description">
+          <h3>Complete Description</h3>
+          <pre class="desc-text">Multiple choice item data
+
+Description:
+This example data contains 20 unscored multiple-choice items with 100 examinees. This data is obtained from CTT R package.
+Format:
+Multiple-choice responses of 100 examinees to 20 items. Each item has four options: A, B, C and D.
+Below is the answer key:
+  i1 = "D", i2 = "A", i3 = "A", i4 = "D", i5 = "D",
+  i6 = "A", i7 = "D", i8 = "B", i9 = "D", i10 = "A",
+  i11 = "A", i12 = "D", i13 = "C", i14 = "C", i15 = "B",
+  i16 = "C", i17 = "D", i18 = "A", i19 = "A", i20 = "B"
+
+Note that in the above answer key, one item is mis-keyed.
+References
+Willse JT (2018). CTT: Classical Test Theory Functions_. doi:10.32614/CRAN.package.
+ R package version 2.3.3</pre>
+        </div>
+      </article>
+
+      <article class="panel" id="panel-ses" role="tabpanel" aria-labelledby="tab-ses">
+        <h2>Rosenberg Self-Esteem Scale (SES) Data</h2>
+        <p class="description">
+          This dataset includes responses to the 10-item Rosenberg Self-Esteem Scale with response coding details.
+          The complete description from the SES folder is included below.
+        </p>
+        <ul class="links">
+          <li><a href="https://raw.githubusercontent.com/Wenchao-Ma/Data/main/SES/SES-data.csv">SES data (.csv)</a></li>
+        </ul>
+        <div class="full-description">
+          <h3>Complete Description</h3>
+          <pre class="desc-text">Rosenberg Self-Esteem Scale (SES) data
+
+Description:
+The data were collected online with an interactive version of the Rosenberg Self-Esteem Scale.
+
+The following items were rated on the following scale where 1=strongly disagree, 2=disagree, 3=agree, and 4=strongly agree:
+
+1.  I feel that I am a person of worth, at least on an equal plane with others.
+2.  I feel that I have a number of good qualities.
+3.  All in all, I am inclined to feel that I am a failure.
+4.  I am able to do things as well as most other people.
+5.  I feel I do not have much to be proud of.
+6.  I take a positive attitude toward myself.
+7.  On the whole, I am satisfied with myself.
+8.  I wish I could have more respect for myself.
+9.  I certainly feel useless at times.
+10. At times I think I am no good at all.
+
+Note. Items 3, 5, 8, 9 and 10 were reversely coded. 0 indicate no answer or missing data.</pre>
+        </div>
+      </article>
+
+      <article class="panel" id="panel-edm2001" role="tabpanel" aria-labelledby="tab-edm2001">
+        <h2>2001 Technology Survey</h2>
+        <p class="description">
+           Dataset and codebook for the 2001 technology survey retrieved from <a href="http://edmeasurement.net/5244/5244assign.html" target="_blank" rel="noopener noreferrer">here</a>.
+        </p>
+        <ul class="links">
+          <li><a href="https://raw.githubusercontent.com/Wenchao-Ma/Data/main/EDM2001/2001-data.sav">Dataset (.sav)</a></li>
+          <li><a href="https://raw.githubusercontent.com/Wenchao-Ma/Data/main/EDM2001/2001-codebook.docx">Codebook (.docx)</a></li>
+          <li><a href="https://raw.githubusercontent.com/Wenchao-Ma/Data/main/EDM2001/2001-survey-data.csv">CSV dataset (.csv)</a></li>
+        </ul>
+      </article>
+
+      <article class="panel" id="panel-edm2002" role="tabpanel" aria-labelledby="tab-edm2002">
+        <h2>2002 Advising Survey</h2>
+        <p class="description">
+          Dataset and codebook for the 2002 advising survey retrieved from <a href="http://edmeasurement.net/5244/5244assign.html" target="_blank" rel="noopener noreferrer">here</a>.
+        </p>
+        <ul class="links">
+          <li><a href="https://raw.githubusercontent.com/Wenchao-Ma/Data/main/EDM2002/2002-data.sav">Dataset (.sav)</a></li>
+          <li><a href="https://raw.githubusercontent.com/Wenchao-Ma/Data/main/EDM2002/2002-codebook.docx">Codebook (.docx)</a></li>
+          <li><a href="https://raw.githubusercontent.com/Wenchao-Ma/Data/main/EDM2002/2002-survey-data.csv">CSV dataset (.csv)</a></li>
+        </ul>
+      </article>
+
+      <article class="panel" id="panel-edm2003" role="tabpanel" aria-labelledby="tab-edm2003">
+        <h2>2003 UofM &amp; Gun Law Survey</h2>
+        <p class="description">
+          Dataset and codebook for the 2003 UofM and gun law survey retrieved from <a href="http://edmeasurement.net/5244/5244assign.html" target="_blank" rel="noopener noreferrer">here</a>.
+        </p>
+        <ul class="links">
+          <li><a href="https://raw.githubusercontent.com/Wenchao-Ma/Data/main/EDM2003/2003-data.sav">Dataset (.sav)</a></li>
+          <li><a href="https://raw.githubusercontent.com/Wenchao-Ma/Data/main/EDM2003/2003-codebook.docx">Codebook (.docx)</a></li>
+          <li><a href="https://raw.githubusercontent.com/Wenchao-Ma/Data/main/EDM2003/2003-survey-data.csv">CSV dataset (.csv)</a></li>
+        </ul>
+      </article>
+
+      <article class="panel" id="panel-edm2004" role="tabpanel" aria-labelledby="tab-edm2004">
+        <h2>2004 UofM Stadium &amp; Elections Survey</h2>
+        <p class="description">
+          Dataset and codebook for the 2004 UofM stadium and elections survey retrieved from <a href="http://edmeasurement.net/5244/5244assign.html" target="_blank" rel="noopener noreferrer">here</a>.
+        </p>
+        <ul class="links">
+          <li><a href="https://raw.githubusercontent.com/Wenchao-Ma/Data/main/EDM2004/2004-data.sav">Dataset (.sav)</a></li>
+          <li><a href="https://raw.githubusercontent.com/Wenchao-Ma/Data/main/EDM2004/2004-codebook.docx">Codebook (.docx)</a></li>
+          <li><a href="https://raw.githubusercontent.com/Wenchao-Ma/Data/main/EDM2004/2004-survey-data.csv">CSV dataset (.csv)</a></li>
+        </ul>
+      </article>
+
+      <article class="panel" id="panel-vgds" role="tabpanel" aria-labelledby="tab-vgds">
+        <h2>VGDS Data (80-item and 26-item Forms)</h2>
+        <p class="description">
+          Video Game Dependence Scale data are available in both 80-item and 26-item forms.
+          This section supports scale development exercises, short-form validation, and structural comparisons across forms.
+        </p>
+        <ul class="links">
+          <li><a href="https://raw.githubusercontent.com/Wenchao-Ma/Data/main/VGDS/vgds.csv">80-item VGDS data (.csv)</a></li>
+          <li><a href="https://raw.githubusercontent.com/Wenchao-Ma/Data/main/VGDS/paper.pdf">VGDS article (.pdf)</a></li>
+          <li><a href="https://raw.githubusercontent.com/Wenchao-Ma/Data/main/VGDS/VGDS-G/VGDS-E-G.csv">26-item VGDS data (.csv)</a></li>
+        </ul>
+        <div class="full-description">
+          <h3>Complete Description (VGDS 80-item)</h3>
+          <pre class="desc-text">Video Game Demand Scale (VGDS) data
+
+      Description:
+      The Video Game Demand Scale was developed by Bowman, et al. (2018). This data consists of a total of N = 660 participants gave complete answers to the 80 VGDS pool items-20 for each different type of demand-by consulting the literatures reviewed earlier in this manuscript, consulting existing open-ended data from past data collections to cull players' natural language about demand, and through deliberation within the research team. This 80-item bank was randomized and presented to participants, with items written in Likert-style with seven response options from "Strongly Disagree" to "Strongly Agree."
+      Format:
+      After a series of EFA, Bowman, et al. (2018) retained a 5-factor solution with 26 items, in which cognitive, emotional, and social demand factored in line with reviewed literature, and physical demand was factored into only two dimensions reflecting controller demand and physical exertion, respectively.
+        - The cognitive demand dimension items are principally about directed and purposeful thinking-perhaps most directly capturing the mental and rational aspects of video game play. the retained items are more closely aligned with the extent to which a game engages the player's mental faculties-like the notion of attentional demand
+        - The emotional demand involves items with colloquial references to game-induced affect is notable: the game tugged on heartstrings and gave me the feels. These items coalesced with items reflecting perceived player-centered emotions (being emotionally invested, moved, and having emotional responses) and context-centered emotions (in that emotions ran high and that emotions were unexpected).
+        - Two different types of physical demand emerged in the data, with game controls being very natural, second nature, and easy to handle being more associated with the discrete controller device (controller demand) and being physically exhausted and feeling drained after gameplay that seem to focus more holistically on involving the entire body in physical activity (exertional demand).
+        - The social demand factor similarly comprised items indicating a convergence of items representing both game-induced sociality (it was an important part of the game) and player-initiated sociality (feeling obligated to others), as well as items suggestive of both explicit awareness of and response to others through concrete influences (they had an impact on how I played) and more heuristic assessments of their influence that may suggest more implicit social demand (being aware of others)
+
+      Description of the original 80 items (boldfaced items were retained after EFA, with factor name in parathesis):
+      COG1  - The game left me mentally exhausted.
+      COG2  - The game involved a lot of problem-solving.
+      COG3  - The game was cognitively demanding. (Cog)
+      COG4  - I had to think very hard when playing the game. (Cog)
+      COG5  - The game required a lot of mental gymnastics. (Cog)
+      COG6  - The game was confusing to me.
+      COG7  - The game's challenges were very clear to me.
+      COG8  - It was very easy to comprehend this game.
+      COG9  - The mental challenges in this game had an impact on how I played. (Cog)
+      COG10 - This game doesn't require a lot of mental effort. (Cog)
+      COG11 - I was able to figure that game out quickly.
+      COG12 - When playing this game, my brain felt overloaded.
+      COG13 - This game made me question my own intelligence.
+      COG14 - It took a lot of thinking to understand the point of the game.
+      COG15 - This game was unexpectedly complicated.
+      COG16 - I didn't have to pay very close attention to the game while playing.
+      COG17 - The game made me draw on all of my mental resources. (Cog)
+      COG18 - The game required me to keep track of a lot of things.
+      COG19 - The game stimulated my brain. (Cog)
+      COG20 - I had to think through what was happening in the game.
+      EMOT1  - I was emotionally exhausted after playing the game.
+      EMOT2  - I was emotionally invested in the game.
+      EMOT3  - The game really got to me.
+      EMOT4  - The game gave me the feels. (Emotional)
+      EMOT5  - I cared deeply about what was happening in the game.
+      EMOT6  - I was moved by the game. (Emotional)
+      EMOT7  - I wasn't emotionally invested in the outcomes of the game.
+      EMOT8  - When playing, I was emotionally wrapped up in the game.
+      EMOT9  - I had emotional responses to the events in the game.
+      EMOT10 - My emotions ran high while playing this game.
+      EMOT11 - The game tugged at my heartstrings. (Emotional)
+      EMOT12 - I had a lot of unexpected feelings during gameplay. (Emotional)
+      EMOT13 - I felt emotionally detached from this game.
+      EMOT14 - The events in the game really didn't matter to me.
+      EMOT15 - Things happening in the game weren't relevant to me.
+      EMOT16 - I had a strong emotional bond with the game content. (Emotional)
+      EMOT17 - Playing the game got me riled up.
+      EMOT18 - I'm passionate about the game.
+      EMOT19 - I felt conflicted about things that happened in the game.
+      EMOT20 - The emotions that I felt while playing this game had an impact on how I played.
+      PHYS1  - I was physically exhausted after playing. (Exertional demand)
+      PHYS2  - I felt strained after playing. (Exertional demand)
+      PHYS3  - The game required a lot of physical movement from me.
+      PHYS4  - The game's controls were like second nature to me. (Controller demand)
+      PHYS5  - The controls were very natural to me. (Controller demand)
+      PHYS6  - The controls felt like an extension of me.
+      PHYS7  - My body felt drained after gameplay. (Exertional demand)
+      PHYS8  - I had a difficult time finding different game controls when I needed to.
+      PHYS9  - The game was physically relaxing for me.
+      PHYS10 - The game controls were easy to handle for me. (Controller demand)
+      PHYS11 - The game was physically demanding. (Exertional demand)
+      PHYS12 - The game required very little input from me.
+      PHYS13 - The game controls tripped me up. (Controller demand)
+      PHYS14 - I felt a lot of physical discomfort when playing.
+      PHYS15 - I was physically overwhelmed when playing the game.
+      PHYS16 - The game required constant input from me.
+      PHYS17 - I was tired after playing this game.
+      PHYS18 - The physical requirements to play this game had an impact on how I played.
+      PHYS19 - I had to do a lot of things simultaneously while playing this game.
+      PHYS20 - I felt rushed while trying to play this game.
+      SOC1  - After playing the game, I just felt like I needed to be alone.
+      SOC2  - This game was socially demanding. (Social)
+      SOC3  - While playing, I was aware of others in the game. (Social)
+      SOC4  - I felt that I was constantly being watched while playing.
+      SOC5  - This game was unexpectedly social for me.
+      SOC6  - During gameplay, I felt strong social connections with others.
+      SOC7  - I felt pressure to have relationships with others in the game.
+      SOC8  - I felt obligated to others, while playing. (Social)
+      SOC9  - I felt taxed after being around others in the game.
+      SOC10 - It took a lot out of me to be around others in the game.
+      SOC11 - The social connections in this game were very energizing to me.
+      SOC12 - When playing, I could feel the presence of others around me.
+      SOC13 - I was compelled to interact with others in the game. (Social)
+      SOC14 - I was exhausted after having so many social interactions in this game.
+      SOC15 - I was concerned with how I interacted with others in the game.
+      SOC16 - I cared a lot about what others thought of me in the game.
+      SOC17 - Being around others in the game had an impact on how I played. (Social)
+      SOC18 - I didn't notice any others while playing the game.
+      SOC19 - The game placed a priority on social relationships.
+      SOC20 - Socializing was an important part of playing this game. (Social)
+      The data were retrieved from https://osf.io/x5jch on Aug 7, 2025, and processed with the following R code:
+      HS=VGDS[,1:80]
+      colnames(HS)=c(paste0("COG",1:20),paste0("EMOT",1:20),paste0("PHYS",1:20),paste0("SOC",1:20))
+      write.csv(HS,"vgds.csv",row.names = F)
+
+      References
+      Bowman, N. D., Wasserman, J., &amp; Banks, J. (2018). Development of the video game demand scale. In Video games (pp. 208-233). Routledge.</pre>
+        </div>
+        <div class="full-description">
+          <h3>Complete Description (VGDS-G 26-item)</h3>
+          <pre class="desc-text">Video Game Demand Scale (VGDS) data
+
+      Description:
+      The Video Game Demand Scale was developed by Bowman, et al. (2018). The Germany version was developed by Koban and Bowman (2021). The data consisted of N = 560 participants (M = 24.83 years, SD = 4.38, range: 18-63 years) with n = 137 identifying themselves as female (24.5%), n = 404 as male (72.1%), and n = 19 who decided not to specify their biological sex (3.4%). Players were recruited at a mid-sized German university via a campus-wide email invitation.
+      Format:
+      The original VGDS consisted of 26 items loading onto five factors: cognitive, emotional, physical (broken into controller demands and physical exertion), and social demands. Items were answered on a 7-point Likert scale (1 = strongly disagree, 7 = strongly agree), in response to the participants most recent gaming experience.
+      Description of the 26-item scale:
+      Cognitive (COG)
+        - COG1 - The game was cognitively demanding.
+        - COG2 - I had to think very hard when playing the game.
+        - COG3 - The game required a lot of mental gymnastics.
+        - COG4 - This game doesn't require a lot of mental effort.
+        - COG5 - The game made me draw on all of my mental resources.
+        - COG6 - The mental challenges in this game had an impact on how I played.
+        - COG7 - The game really stimulated my brain.
+
+      Emotional (EMOT)
+        - EMOT1 - The game tugged at my heartstrings.
+        - EMOT2 - The game gave me the feels.
+        - EMOT3 - I was moved by the game.
+        - EMOT4 - I had a strong emotional bond with the game content.
+        - EMOT5 - I had a lot of unexpected feelings during gameplay.
+
+      Control (CON) (Assumed as a control-related physical dimension)
+        - CON1 - The controls were very natural to me.
+        - CON2 - The game's controls were like second nature to me.
+        - CON3 - The game controls were easy to handle for me.
+        - CON4 - The game controls tripped me up.
+
+      Physical (PHY)
+        - PHY1 - I was physically exhausted after playing.
+        - PHY2 - I felt strained after playing.
+        - PHY3 - My body felt drained after gameplay.
+        - PHY4 - The game was physically demanding.
+
+      Social (SOC)
+        - SOC1 - Socializing was an important part of playing this game.
+        - SOC2 - While playing, I was aware of others in the game.
+        - SOC3 - I was compelled to interact with others in the game.
+        - SOC4 - I felt obligated to others, while playing.
+        - SOC5 - Being around others in the game had an impact on how I played.
+        - SOC6 - This game was socially demanding.
+
+      The data were retrieved from https://osf.io/x5jch on Aug 7, 2025. The datafile contains 560 participants from Germany and 660 participants from U.S. (indicated by GROUP variable).
+
+      References
+      Bowman, N. D., Wasserman, J., &amp; Banks, J. (2018). Development of the video game demand scale. In Video games (pp. 208-233). Routledge.
+      Koban, K., &amp; Bowman, N. D. (2021). Further validation and cross-cultural replication of the video game demand scale. Journal of Media Psychology: Theories, Methods, and Applications, 33(1), 39-48. https://doi.org/10.1027/1864-1105/a000280</pre>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <script>
+    const tabs = Array.from(document.querySelectorAll(".tab"));
+    const panels = Array.from(document.querySelectorAll(".panel"));
+
+    function setDescriptionExpanded(section, expand) {
+      const textBlock = section.querySelector(".desc-text");
+      const toggleBtn = section.querySelector(".desc-toggle");
+
+      if (!textBlock || !toggleBtn) {
+        return;
+      }
+
+      section.classList.toggle("collapsed", !expand);
+      toggleBtn.textContent = expand ? "Show less" : "Read full description";
+      toggleBtn.setAttribute("aria-expanded", expand ? "true" : "false");
+    }
+
+    function enhancePanel(panel) {
+      const fullSections = Array.from(panel.querySelectorAll(":scope > .full-description"));
+
+      fullSections.forEach((section, idx) => {
+        const text = section.querySelector(".desc-text");
+        if (text && text.textContent.length > 900) {
+          const button = document.createElement("button");
+          button.type = "button";
+          button.className = "desc-toggle";
+          button.addEventListener("click", () => {
+            const expanded = button.getAttribute("aria-expanded") === "true";
+            setDescriptionExpanded(section, !expanded);
+          });
+          section.appendChild(button);
+          setDescriptionExpanded(section, false);
+        }
+      });
+    }
+
+    panels.forEach(enhancePanel);
+
+    function activateTab(targetTab) {
+      tabs.forEach((tab) => {
+        const selected = tab === targetTab;
+        tab.classList.toggle("active", selected);
+        tab.setAttribute("aria-selected", selected ? "true" : "false");
+      });
+
+      const targetPanelId = targetTab.getAttribute("aria-controls");
+      panels.forEach((panel) => {
+        panel.classList.toggle("active", panel.id === targetPanelId);
+      });
+    }
+
+    tabs.forEach((tab, index) => {
+      tab.addEventListener("click", () => activateTab(tab));
+
+      tab.addEventListener("keydown", (event) => {
+        if (event.key !== "ArrowRight" && event.key !== "ArrowLeft") {
+          return;
+        }
+
+        event.preventDefault();
+        const direction = event.key === "ArrowRight" ? 1 : -1;
+        const nextIndex = (index + direction + tabs.length) % tabs.length;
+        tabs[nextIndex].focus();
+        activateTab(tabs[nextIndex]);
+      });
+    });
+
+  </script>
 </body>
 </html>
