@@ -215,6 +215,15 @@
       outline: none;
     }
 
+    .download-status {
+      margin: 0 0 1rem;
+      padding: 0.7rem 0.85rem;
+      color: #7a0019;
+      background: #fff1cf;
+      border: 1px solid #dfb85d;
+      border-radius: 10px;
+    }
+
     @keyframes fadeUp {
       from {
         opacity: 0;
@@ -253,6 +262,7 @@
     </section>
 
     <section class="content" aria-label="Dataset Tabs">
+      <p class="download-status" id="download-status" role="status" aria-live="polite" hidden></p>
       <div class="tabs" role="tablist" aria-label="Datasets">
         <button class="tab active" id="tab-ccst" role="tab" aria-selected="true" aria-controls="panel-ccst">CCST</button>
         <button class="tab" id="tab-survey" role="tab" aria-selected="false" aria-controls="panel-survey">Course Survey</button>
@@ -581,7 +591,7 @@ Holzinger, K. J., &amp; Swineford, F. (1939). A study in factor analysis: The st
           the attitude of students towards the field of statistics and towards the course. 
         </p>
         <ul class="links">
-          <li><a href="https://raw.githubusercontent.com/Wenchao-Ma/Data/main/stats_attitude/dataset.csv">Attitude toward statistics data (.csv)</a></li>
+          <li><a href="https://raw.githubusercontent.com/Wenchao-Ma/Data/main/stats_attitude/dataset.xlsx">Attitude toward statistics data (.xlsx)</a></li>
           <li><a href="https://raw.githubusercontent.com/Wenchao-Ma/Data/main/stats_attitude/dataset.sav">Attitude toward statistics data (.sav)</a></li>
           <li><a href="https://raw.githubusercontent.com/Wenchao-Ma/Data/main/stats_attitude/questionnaire.pdf">Attitude toward statistics data (.pdf)</a></li>
         </ul>
@@ -1009,6 +1019,47 @@ The dataset was retrieved from https://www.kaggle.com/datasets/borapajo/food-cho
   <script>
     const tabs = Array.from(document.querySelectorAll(".tab"));
     const panels = Array.from(document.querySelectorAll(".panel"));
+    const downloadStatus = document.querySelector("#download-status");
+
+    function showDownloadError(filename) {
+      downloadStatus.textContent = `Unable to download ${filename}. Please try again or use the link's address directly.`;
+      downloadStatus.hidden = false;
+    }
+
+    function downloadFilename(link) {
+      return decodeURIComponent(new URL(link.href).pathname.split("/").pop());
+    }
+
+    async function downloadCsv(event) {
+      const link = event.currentTarget;
+
+      if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) {
+        return;
+      }
+
+      event.preventDefault();
+      const filename = downloadFilename(link);
+
+      try {
+        const response = await fetch(link.href);
+        if (!response.ok) {
+          throw new Error(`Download request failed with status ${response.status}.`);
+        }
+
+        const objectUrl = URL.createObjectURL(await response.blob());
+        const downloadLink = document.createElement("a");
+        downloadLink.href = objectUrl;
+        downloadLink.download = filename;
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+        downloadLink.remove();
+        window.setTimeout(() => URL.revokeObjectURL(objectUrl), 0);
+        downloadStatus.hidden = true;
+      } catch (error) {
+        console.error(`Unable to download ${filename}.`, error);
+        showDownloadError(filename);
+      }
+    }
 
     function setDescriptionExpanded(section, expand) {
       const textBlock = section.querySelector(".desc-text");
@@ -1043,6 +1094,9 @@ The dataset was retrieved from https://www.kaggle.com/datasets/borapajo/food-cho
     }
 
     panels.forEach(enhancePanel);
+    document.querySelectorAll('a[href$=".csv"]').forEach((link) => {
+      link.addEventListener("click", downloadCsv);
+    });
 
     function activateTab(targetTab) {
       tabs.forEach((tab) => {
